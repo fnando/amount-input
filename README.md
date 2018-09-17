@@ -51,9 +51,7 @@ This is the minimum working example:
 
 ## Examples
 
-Available at https://codepen.io/fnando/full/KyZLLV/
-
-[![](https://github.com/fnando/amount-input/blob/master/amount-input.gif?raw=true)](https://codepen.io/fnando/full/KyZLLV/)
+Available at https://codepen.io/fnando/pen/VGExVv
 
 ## License
 
