@@ -1,0 +1,35 @@
+{
+  "name": "@fnando/amount-input",
+  "version": "0.1.0",
+  "files": [
+    "src/amount-input.js",
+    "dist/**/*",
+    "README.md"
+  ],
+  "browser": "dist/amount-input.js",
+  "main": "dist/amount-input.js",
+  "module": "src/amount-input.js",
+  "scripts": {
+    "test": "mocha --require @babel/register 'test/**/*_test.js'",
+    "js:dist:minified": "NODE_ENV=production webpack",
+    "dist": "rm -rf dist/* && yarn test && yarn js:dist:minified"
+  },
+  "description": "Add amount masking for inputs.",
+  "license": "MIT",
+  "repository": "https://github.com/fnando/amount-input",
+  "private": false,
+  "devDependencies": {
+    "@babel/core": "7.0.x",
+    "@babel/plugin-proposal-function-bind": "7.0.x",
+    "@babel/plugin-proposal-object-rest-spread": "x",
+    "@babel/preset-env": "7.0.x",
+    "@babel/preset-react": "7.0.x",
+    "@babel/register": "7.0.x",
+    "babel-loader": "8.0.x",
+    "jsdom": "12.0.x",
+    "mocha": "5.2.x",
+    "uglifyjs-webpack-plugin": "2.0.x",
+    "webpack": "4.19.x",
+    "webpack-cli": "3.1.x"
+  }
+}

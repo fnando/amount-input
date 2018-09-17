@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    .invalid {
+      color: red;
+      animation: bounce 0.3s forwards;
+    }
+
+    @keyframes bounce {
+      25%  { transform: translate3d(5px, 0, 0); }
+      50%  { transform: translate3d(-5px, 0, 0); }
+      75%  { transform: translate3d(5px, 0, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+  </style>
+</head>
+<body>
+<p id="value"></p>
+
+<p>
+  Please inform a number between 0 and 9999.99.
+</p>
+
+<p>
+  <input inputmode="numeric" value="0.00" autofocus>
+</p>
+
+<script src="../dist/amount-input.js"></script>
+<script>
+  function amountInputError(input) {
+    input.classList.add("invalid");
+    setTimeout(() => input.classList.remove("invalid"), 400);
+  }
+
+  const options = {
+    willAcceptAmount: amount => amount <= 9999.99,
+    onAcceptAmount: (input, amount) => {
+      document.querySelector("#value").textContent = `number: ${amount} / formatted: ${amountInput.format(amount)}`;
+    },
+    onRejectAmount: input => amountInputError(input)
+  };
+
+  amountInput.amountInput(document.querySelector("input"), options);
+</script>
+</body>
+</html>
