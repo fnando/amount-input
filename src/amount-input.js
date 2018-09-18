@@ -46,11 +46,11 @@ function numberFromString(string, options) {
     return;
   }
 
-  return roundNumber(`${number}.${decimals}`, options);
+  return parseFloat(`${number}.${decimals}`);
 }
 
 function roundNumber(number, options) {
-  return parseFloat(parseFloat(number).toFixed(options.precision));
+  return parseFloat(number.toFixed(options.precision));
 }
 
 function formatThousands(number, options) {
@@ -104,7 +104,7 @@ export function amountInput(input, options = {}) {
   options = {...defaultOptions, ...options};
   const {willAcceptAmount, onRejectAmount, onAcceptAmount} = options;
   const value = input.value;
-  let amount = roundNumber(value, options);
+  let amount = roundNumber(numberFromString(value), options);
 
   if (isNaN(amount)) {
     amount = 0;
@@ -168,7 +168,7 @@ export function amountInput(input, options = {}) {
     const {clipboardData, target} = event;
     let value = clipboardData.getData("Text");
     const oldAmount = amount;
-    const newAmount = numberFromString(value, options);
+    const newAmount = roundNumber(numberFromString(value, options), options);
 
     if (isNaN(newAmount)) {
       return;
