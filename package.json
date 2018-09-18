@@ -10,6 +10,7 @@
   "main": "dist/amount-input.js",
   "module": "src/amount-input.js",
   "scripts": {
+    "js:watch": "webpack --watch",
     "test": "mocha --require @babel/register 'test/**/*_test.js'",
     "js:dist:minified": "NODE_ENV=production webpack",
     "dist": "rm -rf dist/* && yarn test && yarn js:dist:minified"
