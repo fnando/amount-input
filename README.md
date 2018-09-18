@@ -29,9 +29,9 @@ Enable the amountInput behaviour on `input`. You can customize it with the follo
     - `precision`: Sets the level of precision (defaults to `2`).
     - `separator`: Sets the separator between the units (defaults to `.`).
     - `delimiter`: Sets the thousands delimiter (defaults to `,`).
-    - `willAcceptAmount`: Sets the callback that will validate the acceptance of the new amount. If this callback returns `false`, then the amount won't be accepted and the `onRejectAmount` callback will be executed. Defaults to a callback that accepts any amount.
-    - `onAcceptAmount`: Sets the the callback that will be executed after an amount has been accepted. Default to a no-op callback.
-    - `onRejectAmount`: Sets the the callback that will be executed when an amount is rejected by `willAcceptAmount`.
+    - `willAcceptAmount`: Sets the callback that will validate the acceptance of the new amount. If this callback returns `false`, then the amount won't be accepted and the `onRejectAmount` callback will be executed. Defaults to a callback that accepts any amount. The callback signature is `callback(newAmount)`.
+    - `onAcceptAmount`: Sets the the callback that will be executed after an amount has been accepted. Default to a no-op callback. The callback signature is `callback(input, amount)`.
+    - `onRejectAmount`: Sets the the callback that will be executed when an amount is rejected by `willAcceptAmount`. The callback signature is `callback(input, rejectedAmount, amount)`.
 
 ### `amountInput.format(number, options)`
 
