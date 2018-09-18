@@ -1,4 +1,9 @@
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+let libraryTarget = process.env.LIBRARY_TARGET;
+let names = {
+  var: "amount-input",
+  commonjs2: "amount-input.commonjs2"
+};
 
 module.exports = {
   entry: `${__dirname}/src/amount-input.js`,
@@ -11,8 +16,9 @@ module.exports = {
 
   output: {
     path: `${__dirname}/dist/`,
-    filename: "amount-input.js",
-    library: "amountInput"
+    filename: `${names[libraryTarget]}.js`,
+    library: "amountInput",
+    libraryTarget: libraryTarget
   },
 
   module: {
