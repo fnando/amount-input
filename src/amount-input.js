@@ -195,7 +195,7 @@ function sequenceToNumber(sequence, options) {
 }
 
 function numberToSequence(input, {separator, precision}) {
-  let [number, decimals] = input.toString().split(separator);
+  let [number, decimals] = input.toFixed(precision).split(".");
   decimals = (decimals || "0").padEnd(precision, "0");
   number = (number || "0").padStart(1, "0");
 
