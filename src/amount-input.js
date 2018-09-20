@@ -16,7 +16,7 @@ export class AmountInput {
   }
 
   init() {
-    const {input} = this;
+    const {input, options} = this;
     const value = input.value;
     let amount = roundNumber(numberFromString(value), options);
 
@@ -62,7 +62,6 @@ export class AmountInput {
     sequence = sequence.substr(0, sequence.length - 1);
     sequence = sequence.padStart(3, "0");
 
-    const oldAmount = amount;
     const newAmount = sequenceToNumber(sequence, options);
 
     this.update(newAmount);
@@ -70,13 +69,12 @@ export class AmountInput {
   };
 
   handlePaste = event => {
-    const {amount, options} = this;
+    const {options} = this;
 
     event.preventDefault();
 
     const {clipboardData, target} = event;
     let value = clipboardData.getData("Text");
-    const oldAmount = amount;
     const newAmount = roundNumber(numberFromString(value, options), options);
 
     if (isNaN(newAmount)) {
@@ -107,7 +105,6 @@ export class AmountInput {
     }
 
     const newSequence = sequence + inputValue;
-    const oldAmount = amount;
     const newAmount = sequenceToNumber(newSequence, options);
 
     this.update(newAmount);
@@ -118,7 +115,7 @@ export class AmountInput {
     moveCursor(target);
   }
 
-  handleKeyDown = ({target, key, ctrlKey, metaKey}) => {
+  handleKeyDown = ({key, ctrlKey, metaKey}) => {
     // Allow selecting/copying/cutting on Mac.
     if (metaKey) {
       return;
@@ -141,9 +138,9 @@ export class AmountInput {
   }
 }
 
-function numberFromString(string, options) {
+function numberFromString(string) {
   string = string.replace(/[^\d.,]+/g, "");
-  let [_, number, decimals] = string.match(/^([\d,]+)(?:\.(\d+))?$/) || string.match(/^([\d.]+)(?:,(\d+))?$/);
+  let [, number, decimals] = string.match(/^([\d,]+)(?:\.(\d+))?$/) || string.match(/^([\d.]+)(?:,(\d+))?$/);
 
   number = number.replace(/[^\d]+/g, "");
   decimals = (decimals || "0").replace(/[^\d]+/g, "");
@@ -194,7 +191,7 @@ function sequenceToNumber(sequence, options) {
   return parseFloat(`${number}.${decimals}`);
 }
 
-function numberToSequence(input, {separator, precision}) {
+function numberToSequence(input, {precision}) {
   let [number, decimals] = input.toFixed(precision).split(".");
   decimals = (decimals || "0").padEnd(precision, "0");
   number = (number || "0").padStart(1, "0");
