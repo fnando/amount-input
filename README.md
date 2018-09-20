@@ -33,6 +33,8 @@ Enable the amountInput behaviour on `input`. You can customize it with the follo
     - `onAcceptAmount`: Sets the the callback that will be executed after an amount has been accepted. Default to a no-op callback. The callback signature is `callback(input, amount)`.
     - `onRejectAmount`: Sets the the callback that will be executed when an amount is rejected by `willAcceptAmount`. The callback signature is `callback(input, rejectedAmount, amount)`.
 
+This function allow us to update the amount hold by amountInput. Otherwise, you won't be able to set an arbitrary value. Notice that the new amount that's being set is subjected to the `willAcceptAmount` condition.
+
 ### `amountInput.format(number, options)`
 
 Stand-alone formatting numbers. Accept `precision`, `separator`, and `delimiter` options, like described above.

@@ -4,6 +4,33 @@
   <title></title>
   <meta charset="utf-8">
   <style type="text/css">
+    body {
+      font-family: sans-serif;
+      font-size 20px;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input {
+      font-size: 24px;
+      font-family: inherit;
+      padding: 5px 10px;
+      width: 320px;
+      text-align: right;
+    }
+
+    button {
+      font-size: 14px;
+      background: #fff;
+      border: 1px solid #ccc;
+      font-weight: bold;
+      color: #555;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
     .invalid {
       color: red;
       animation: bounce 0.3s forwards;
@@ -29,22 +56,53 @@
   <input inputmode="numeric" pattern="[0-9.,]*" value="0.00" autofocus>
 </p>
 
+<p>
+  <button data-step="5">$5+</button>
+  <button data-step="10">$10+</button>
+  <button data-step="25">$25+</button>
+  <button data-step="50">$50+</button>
+  <button data-step="100">$100+</button>
+</p>
+
 <script src="../dist/amount-input.js"></script>
 <script>
-  function amountInputError(input) {
-    input.classList.add("invalid");
-    setTimeout(() => input.classList.remove("invalid"), 400);
-  }
+  // Hold the amount so we can use
+  // throughout the script below.
+  let amount = 0;
 
   const options = {
+    // Only accept values <= `9999.99`.
     willAcceptAmount: amount => amount <= 9999.99,
-    onAcceptAmount: (input, amount) => {
+
+    // When new amount passes the validation above,
+    // update the holding variable and text.
+    onAcceptAmount: (input, newAmount) => {
+      amount = newAmount;
       document.querySelector("#value").textContent = `number: ${amount} / formatted: ${amountInput.format(amount)}`;
     },
-    onRejectAmount: input => amountInputError(input)
+
+    // When new amount fails the `willAcceptAmount` validation,
+    // let's bounce the input.
+    onRejectAmount: input => {
+      input.classList.add("invalid");
+      setTimeout(() => input.classList.remove("invalid"), 400);
+    }
   };
 
-  amountInput.amountInput(document.querySelector("input"), options);
+  // This function allow us to update the amount hold by amountInput.
+  // Otherwise, you won't be able to set an arbitrary value.
+  // Notice that the value will be subjected to the `willAcceptAmount` condition.
+  const updater = amountInput.amountInput(document.querySelector("input"), options);
+
+  // Setup step buttons.
+  // To update internal amount, we need to call the function
+  // returned by `amountInput(input, options)`.
+  document.querySelectorAll("button").forEach(button => {
+    button.addEventListener("click", ({target}) => {
+      const step = parseFloat(target.dataset.step);
+      updater(amount + step);
+    });
+  });
 </script>
 </body>
 </html>

@@ -24,6 +24,7 @@
     "@babel/plugin-proposal-function-bind": "7.0.x",
     "@babel/plugin-proposal-object-rest-spread": "x",
     "@babel/plugin-transform-runtime": "7.1.x",
+    "@babel/plugin-proposal-class-properties": "7.1.x",
     "@babel/preset-env": "7.0.x",
     "@babel/register": "7.0.x",
     "@babel/runtime": "7.0.x",
