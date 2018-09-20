@@ -9,7 +9,7 @@
   "main": "dist/amount-input.js",
   "module": "dist/amount-input.commonjs2.js",
   "scripts": {
-    "js:watch": "webpack --watch",
+    "js:watch": "LIBRARY_TARGET=var webpack --watch",
     "test": "mocha --require @babel/register 'test/**/*_test.js'",
     "js:dist:commonjs2": "LIBRARY_TARGET=commonjs2 NODE_ENV=production webpack",
     "js:dist:browser": "LIBRARY_TARGET=var NODE_ENV=production webpack",
