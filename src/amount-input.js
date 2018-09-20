@@ -118,7 +118,7 @@ export function amountInput(input, options = {}) {
     onRejectAmount(input, amount);
   }
 
-  input.addEventListener("input", ({target, inputType}) => {
+  const handleDelete = ({target, inputType}) => {
     if (inputType !== "deleteContentBackward") {
       return;
     }
@@ -135,16 +135,26 @@ export function amountInput(input, options = {}) {
       target.value = format(amount, options);
       onAcceptAmount(target, newAmount, oldAmount);
     }
-  });
+  };
 
-  input.addEventListener("keypress", ({keyCode, target}) => {
+  input.addEventListener("input", handleDelete);
+
+  input.addEventListener("keypress", event => {
+    const {which, keyCode, target} = event;
     let sequence = numberToSequence(amount, options);
-    const inputValue = String.fromCharCode(keyCode);
+    const inputValue = String.fromCharCode(keyCode || which);
     event.preventDefault();
+
+    // Firefox bug: backspace keystrokes don't trigger
+    // an `input` event, so let's fake one here.
+    if (navigator.userAgent.match(/firefox/i) && (which === 8)) {
+      handleDelete({target, inputType: "deleteContentBackward"});
+      return;
+    }
 
     if (!inputValue.match(/^[0-9]$/)) {
       moveCursor(target);
-      return false;
+      return;
     }
 
     const newSequence = sequence + inputValue;
