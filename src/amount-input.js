@@ -38,9 +38,8 @@ export class AmountInput {
     input.addEventListener("keypress", this.handleKeyPress);
   }
 
-  update = (amount, config = {runAcceptAmountCallback: true, runRejectAmountCallback: true}) => {
+  update = (amount, runAcceptAmountCallback = true, runRejectAmountCallback = true) => {
     const {input, options} = this;
-    const {runAcceptAmountCallback, runRejectAmountCallback} = config;
     const {willAcceptAmount, onAcceptAmount, onRejectAmount} = options;
 
     if (willAcceptAmount(amount)) {
