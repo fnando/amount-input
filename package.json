@@ -1,6 +1,6 @@
 {
   "name": "@fnando/amount-input",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "files": [
     "src/amount-input.js",
     "dist/**/*",
