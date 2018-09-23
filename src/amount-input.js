@@ -62,8 +62,17 @@ export class AmountInput {
     }
 
     let sequence = numberToSequence(amount, options);
-    sequence = sequence.substr(0, sequence.length - 1);
-    sequence = sequence.padStart(3, "0");
+
+    // Account for precision=0, by always removing
+    // last three digits (decimals + integer) and
+    // then appending zero decimals.
+    if (options.precision === 0) {
+      sequence = sequence.substr(0, sequence.length - 3);
+      sequence += "00";
+    } else {
+      sequence = sequence.substr(0, sequence.length - 1);
+      sequence = sequence.padStart(3, "0");
+    }
 
     const newAmount = sequenceToNumber(sequence, options);
 
@@ -107,7 +116,16 @@ export class AmountInput {
       return;
     }
 
-    const newSequence = sequence + inputValue;
+    let newSequence;
+
+    // When precision is 0, we need to move the number straight
+    // to the straight to the left side of the separator.
+    if (options.precision === 0) {
+      newSequence = sequence.substr(0, sequence.length - 2) + inputValue + "00";
+    } else {
+      newSequence = sequence + inputValue;
+    }
+
     const newAmount = sequenceToNumber(newSequence, options);
 
     this.update(newAmount);
@@ -176,15 +194,23 @@ export function format(amount, options) {
   options = {...defaultOptions, ...options};
   const sequence = numberToSequence(amount, options);
   const [number, decimals] = sequenceToComponents(sequence, options);
+  let formattedAmount = formatThousands(number, options);
 
-  return `${formatThousands(number, options)}${options.separator}${decimals}`;
+  if (options.precision > 0) {
+    formattedAmount += `${options.separator}${decimals}`;
+  }
+
+  return formattedAmount;
 }
 
 function sequenceToComponents(sequence, options) {
-  let decimals = sequence.substr(-options.precision);
-  let number = sequence.substr(0, sequence.length - options.precision);
+  const precision = options.precision || 2;
+
+  let number = sequence.substr(0, sequence.length - precision);
+  let decimals = sequence.substr(-precision);
+
   number = number.replace(/^0+/g, "").padStart(1, "0");
-  decimals = decimals.padEnd(options.precision, "0");
+  decimals = decimals.padEnd(precision, "0");
 
   return [number, decimals];
 }
@@ -195,6 +221,10 @@ function sequenceToNumber(sequence, options) {
 }
 
 function numberToSequence(input, {precision}) {
+  // This will ensure that the sequence will be
+  // correct when using precision=0 (only integers).
+  precision = precision || 2;
+
   let [number, decimals] = input.toFixed(precision).split(".");
   decimals = (decimals || "0").padEnd(precision, "0");
   number = (number || "0").padStart(1, "0");

@@ -1,8 +1,13 @@
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-let libraryTarget = process.env.LIBRARY_TARGET;
+const env = process.env.NODE_ENV;
+const libraryTarget = process.env.LIBRARY_TARGET;
 let names = {
   var: "amount-input",
   commonjs2: "amount-input.commonjs2"
+};
+let eslint = {
+  production: ".eslintrc",
+  development: ".eslintrc.development"
 };
 
 module.exports = {
@@ -27,7 +32,7 @@ module.exports = {
         test: /\.js$/,
         use: [
           "babel-loader",
-          "eslint-loader?configFile=.eslintrc"
+          `eslint-loader?configFile=${eslint[env]}`
         ],
         include: [`${__dirname}/src/`],
       }

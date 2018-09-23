@@ -13,7 +13,7 @@
       align-items: center;
     }
 
-    input {
+    input[type=text] {
       font-size: 24px;
       font-family: inherit;
       padding: 5px 10px;
@@ -53,7 +53,7 @@
 
 <p>
   <!-- value can be a number or a formatted string (e.g. 1,234.56) -->
-  <input inputmode="numeric" pattern="[0-9.,]*" value="0.00" autofocus>
+  <input type="text" inputmode="numeric" pattern="[0-9.,]*" value="0" autofocus>
 </p>
 
 <p>
@@ -71,6 +71,8 @@
   let amount = 0;
 
   const options = {
+    precision: 2,
+
     // Only accept values <= `9999.99`.
     willAcceptAmount: amount => amount <= 9999.99,
 
@@ -78,7 +80,7 @@
     // update the holding variable and text.
     onAcceptAmount: (input, newAmount) => {
       amount = newAmount;
-      document.querySelector("#value").textContent = `number: ${amount} / formatted: ${amountInput.format(amount)}`;
+      document.querySelector("#value").textContent = `number: ${amount} / formatted: ${amountInput.format(amount, options)}`;
     },
 
     // When new amount fails the `willAcceptAmount` validation,

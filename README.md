@@ -26,7 +26,7 @@ Enable the amountInput behaviour on `input`. You can customize it with the follo
 
 - `input`: The `<input>` element you want to control.
 - `options`: This optional argument allows you to further customize the input behaviour. The available options are:
-    - `precision`: Sets the level of precision (defaults to `2`).
+    - `precision`: Sets the level of precision (defaults to `2`). When precision is `0`, then only integers will be accepted.
     - `separator`: Sets the separator between the units (defaults to `.`).
     - `delimiter`: Sets the thousands delimiter (defaults to `,`).
     - `willAcceptAmount`: Sets the callback that will validate the acceptance of the new amount. If this callback returns `false`, then the amount won't be accepted and the `onRejectAmount` callback will be executed. Defaults to a callback that accepts any amount. The callback signature is `callback(newAmount)`.
