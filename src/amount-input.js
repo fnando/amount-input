@@ -136,7 +136,9 @@ export class AmountInput {
     moveCursor(target);
   }
 
-  handleKeyDown = ({key, ctrlKey, metaKey}) => {
+  handleKeyDown = event => {
+    const {key, ctrlKey, metaKey} = event;
+
     // Allow selecting/copying/cutting on Mac.
     if (metaKey) {
       return;
